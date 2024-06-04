@@ -4,9 +4,8 @@ import joblib
 import pandas as pd
 import numpy as np
 
-model = joblib.load('random_forest_model_latest.pkl')
 scaler = joblib.load('scaler_rf.pkl')
-
+model = joblib.load('random_forest_model_latest.pkl')
 
 def predict(input_data):
     input_df = pd.DataFrame([input_data])
