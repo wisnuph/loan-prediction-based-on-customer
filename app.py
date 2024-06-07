@@ -4,7 +4,7 @@ import joblib
 import pandas as pd
 import numpy as np
 
-scaler = joblib.load('scaler_rf.pkl')
+scaler = joblib.load('scaler_loan.pkl')
 model = joblib.load('random_forest_model_latest.pkl')
 
 def predict(input_data):
