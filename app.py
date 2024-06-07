@@ -87,6 +87,10 @@ with content_container:
         st.markdown("")
         st.markdown(f"<p style='font-size:20px;'>Or <b>watch</b> a video tutorial below:</p>", unsafe_allow_html=True)
 
+        col1, col2 = st.columns([1, 3])
+        with col1:
+            st.video('demo_app.mp4')
+
     elif selected == "Tools":
             st.markdown("")
             st.title("Tools")
