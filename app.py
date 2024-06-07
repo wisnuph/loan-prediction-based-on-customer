@@ -3,8 +3,149 @@ from streamlit_option_menu import option_menu
 import joblib
 import pandas as pd
 import numpy as np
+import time
 
-st.set_page_config(layout="wide")
+st.set_page_config(page_title="Early Warning Loan System", layout="wide")
+
+hide_st_style = """
+            <style>
+            #MainMenu {visibility: hidden;}
+            footer {visibility: hidden;}
+            header {visibility: hidden;}
+            </style>
+            """
+st.markdown(hide_st_style, unsafe_allow_html=True)
+
+st.markdown("""
+<style>
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        background-color: #fafafa;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 10;
+    }
+    .logo {
+        width: 100px;
+    }
+    .logo img {
+        width: 100%;
+        height: auto;
+    }
+    .navbar-items {
+        display: flex;
+        gap: 15px;
+    }
+    .navbar-item {
+        font-size: 16px;
+        font-weight: bold;
+        color: black;
+    }
+    .navbar-item:hover {
+        text-decoration: underline;
+    }
+    .content {
+        margin-top: 70px;
+        padding: 20px;
+    }
+    .container {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        margin-top: 20px;
+    }
+    .column {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    .form-input {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+    .button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        background-color: #007bff;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+    }
+    .button:hover {
+        background-color: #0069d9;
+    }
+    .prediction {
+        font-size: 18px;
+        font-weight: bold;
+        margin-top: 20px;
+    }
+    .prediction-result {
+        font-size: 16px;
+    }
+    .table {
+        margin-top: 20px;
+    }
+    .table th, .table td {
+        padding: 10px;
+        text-align: left;
+    }
+    .table th {
+        background-color: #f2f2f2;
+    }
+    .download-button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        background-color: #007bff;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+        margin-top: 20px;
+    }
+    .download-button:hover {
+        background-color: #0069d9;
+    }
+    .about-us {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+    .about-us img {
+        width: 500px;
+        height: auto;
+    }
+    .contact-form {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    .contact-form input, .contact-form textarea {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+    .contact-form button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        background-color: #007bff;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+    }
+    .contact-form button:hover {
+        background-color: #0069d9;
+    }
+</style>
+""", unsafe_allow_html=True)
 
 scaler = joblib.load('scaler_loan.pkl')
 model = joblib.load('random_forest_model.pkl')
@@ -55,12 +196,9 @@ with navbar_container:
                 "container": {"padding": "0!important", "background-color": "#fafafa", "display": "flex", "justify-content": "flex-start"},
                 "icon": {"color": "orange", "font-size": "20px"},
                 "nav-link": {"font-size": "16px", "text-align": "center", "margin": "0px", "--hover-color": "#eee", "color": "black", "font-weight": "bold"},
-                "nav-link-selected": {"background-color": "#007bff"},
+                "nav-link-selected": {"background-color": "#007bff", "color": "white"},
                 "nav-link:hover": {"background-color": "#f7f7f7"},
-                ".nav-link::before": {"content": "", "display": "block", "width": "100%", "height": "2px", "background-color": "#ccc", "position": "absolute", "top": "0", "left": "0"},
-                ".nav-link-selected::before": {"background-color": "#007bff"}
             }
-                
         )
 
 content_container = st.container()
@@ -71,30 +209,29 @@ with content_container:
         st.title("Early Warning Loan System")
         st.markdown("")
         st.markdown(f"<p style='font-size:20px;'><b>The Early Warning Loan System</b> <i>is a tool designed to assist individuals in understanding their likelihood of obtaining a loan. This system is trained on a comprehensive dataset of financial and demographic data, and can provide estimates of loan eligibility probability.</i></p>", unsafe_allow_html=True)
-
         st.markdown("")
         st.markdown("")
         st.markdown(f"<p style='font-size:18px; font-weight:bold;'>Statistics:</p>", unsafe_allow_html=True)
-        st.write("* Over 10,000 users have used our system to date")
-        st.write("* Our system has a accuracy rate of 95% in predicting loan eligibility")
-        st.write("* We have partnered with > 20 major banks to provide loan options to our users")
-
-        st.write("**What our users say:**")
+        st.write("1. Over 10,000 users have used our system to date")
+        st.write("2. Our system has a accuracy rate of 95% in predicting loan eligibility")
+        st.write("3. We have partnered with > 20 major banks to provide loan options to our users")
+        st.markdown(f"<p style='font-size:18px; font-weight:bold;'>What our users say:</p>", unsafe_allow_html=True)
         st.write('"The Early Warning Loan System helped me understand my loan options and make an informed decision. I was able to get a loan with a lower interest rate than I expected!" - Dedi Samosir.')
-
         st.markdown("")
         st.markdown(f"<p style='font-size:20px;'>Ready to get started? Click on the <b>Tools</b> menu to analyze your loan eligibility today!</p>", unsafe_allow_html=True)
         st.markdown("")
         st.markdown(f"<p style='font-size:20px;'>Or <b>watch</b> a video tutorial below:</p>", unsafe_allow_html=True)
-
-        col1, col2 = st.columns([1, 3])
-        with col1:
-            st.video('demo_app.mp4')
+        video_file = open('demo_app.mp4', 'rb')
+        video_bytes = video_file.read()
+        st.video(video_bytes)
 
     elif selected == "Tools":
             st.markdown("")
             st.title("Tools")
-
+            st.markdown(f"<p style='font-size:20px;'>Use this tool to predict the status of a loan application.</p>", unsafe_allow_html=True)
+            st.markdown("")
+            st.markdown("")
+            
             tool_option = st.selectbox("Choose an option", ["Analyze Only One Customer", "Analyze Many Customers"])
 
             if tool_option == "Analyze Only One Customer":
@@ -159,7 +296,7 @@ with content_container:
 
                     prod_yrs_left = max(64 - age, 0) if age_valid else 0
 
-                    if st.button("**Predict status Loan**"):
+                    if st.button("**Predict Status Loan**"):
                         if all([income_valid, age_valid, experience_valid, current_job_yrs_valid, current_house_yrs_valid]):
                             input_data = {
                                 'Income': income,
@@ -173,11 +310,14 @@ with content_container:
                                 'prod_yrs_left': prod_yrs_left  
                             }
 
-                            prediction, probability = predict(input_data)
+                            with st.spinner("Analyzing..."):
+                                time.sleep(3.5)
+                                prediction, probability = predict(input_data)
+
                             if prediction[0] == 0:
-                                st.markdown(f"<p style='color:green; font-size:17px;'>Result: {name} is <b>eligible</b> for loan with probability {probability[0][0]*100:.2f}%</p>", unsafe_allow_html=True)
+                                st.markdown(f"<p style='color:limegreen; font-size:17px;'>Result: {name} is <b>eligible</b> for loan with probability {probability[0][0]*100:.2f}%</p>", unsafe_allow_html=True)
                             else:
-                                st.markdown(f"<p style='color:red; font-size:17px;'>Result: {name} is <b>not eligible</b> for loan with probability {probability[0][1]*100:.2f}%</p>", unsafe_allow_html=True)
+                                st.markdown(f"<p style='color:lightcoral; font-size:17px;'>Result: {name} is <b>not eligible</b> for loan with probability {probability[0][1]*100:.2f}%</p>", unsafe_allow_html=True)
                         else:
                             st.warning("All input must be valid. Check your input again!")
 
@@ -191,7 +331,9 @@ with content_container:
                     st.write(df)
 
                     if st.button("**Predict for All**"):
-                        predictions, probabilities, df = batch_predict(df)
+                        with st.spinner("Analyzing..."):
+                            predictions, probabilities, df = batch_predict(df)
+                      
                         st.write("**Result**")
                         st.write(df)
 
@@ -207,7 +349,7 @@ with content_container:
             st.markdown("")
             st.title("About Us")
             st.write("**OUR TEAM:**")
-            st.write("Our team consists of experts in data science and software development. We are committed to creating a user-friendly and reliable tool that can empower individuals to make informed financial decisions.")
+            st.markdown(f"<p style='font-size:18px;'>Our team consists of experts in data science and software development. We are committed to creating a user-friendly and reliable tool that can empower individuals to make informed financial decisions.</p>", unsafe_allow_html=True)
             st.image('our_team.jpg', width=1200)
 
     elif selected == "Contact":
@@ -216,13 +358,18 @@ with content_container:
 
             st.write("**Email:** [pejuangsabtumalam@gmail.com](mailto:[pejuangsabtumalam@gmail.com])")  
 
-            st.write("**Phone:** (62) 852-1806-0624")  
+            st.write("**Phone:** (+62) 852-1806-0624")  
             st.write("**Address:** Freeyork, North Jakarta") 
 
             st.write("**Social Media:**")
-            st.write("[Link to Facebook Pejuang Sabtu Malam](https://www.facebook.com/wisnuph)") 
-            st.write("[Link to Instagram Pejuang Sabtu Malam](https://instagram.com/wisnu_ph)")  
-
+            col1, col2, col3, col4, col5, col6, col7, col8, col9, col10, col11, col12, col3, col14, col15 = st.columns(15)
+            with col1:
+                st.markdown("[![Facebook](https://img.icons8.com/fluency/48/000000/facebook-new.png)](https://www.facebook.com/wisnu.hartono.9)")
+                st.markdown("[![Linkedin](https://img.icons8.com/fluency/48/000000/linkedin.png)](https://www.linkedin.com/in/wisnuph/)")
+            with col2:
+                st.markdown("[![Instagram](https://img.icons8.com/fluency/48/000000/instagram-new.png)](https://instagram.com/wisnu_ph)")
+                st.markdown("[![Github](https://img.icons8.com/fluency/48/000000/github.png)](https://github.com/wisnuph/pejuang-sabtu-malam)")
+                
             contact_form = st.form("Contact Form")
             name = contact_form.text_input("Your Name")
             email = contact_form.text_input("Your Email")
